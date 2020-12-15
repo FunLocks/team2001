@@ -3,6 +3,7 @@
     <color name="colorPrimary">#B2B2B2</color>
     <color name="colorPrimaryDark">#9B9794</color>
     <color name="colorAccent">#FF0000</color>
-    <color name="IndicatorPrimary">#000</color>
-    <color name="IndicatorSub">#CCCCCC</color>
+    <color name="webButton">#E3E3E3</color>
+    <color name="indicatorPrimary">#000</color>
+    <color name="indicatorSub">#CCCCCC</color>
 </resources>
