@@ -1,24 +1,31 @@
 import serial
-import threading
 import time
 from micropyGPS import micropyGPS
 
-class GPS(threading.Thread):
+class GPS:
 	gps = micropyGPS.MicropyGPS(9, 'dd')
 	port = '/dev/serial0'
 	s = serial.Serial(port, 9600, timeout=10)
 	s.readline()
-	stack = []
 
 	def __init__(self):
-		super(GPS, self).__init__()
+		pass
 
-	def run(self):
-		while True:
-			string = self.s.readline().decode('utf-8')
-			if string[0] != '$':
-				continue
-			for x in string:
-				self.gps.update(x)
-			
-			print(self.gps.latitude)
+	def update(self):
+		string = self.s.readline().decode('utf-8')
+		if string[0] != '$':
+			continue
+		for x in string:
+			self.gps.update(x)
+		
+	def latitude(self):
+		return self.gps.latitude()
+
+	def longitude(self):
+		return self.gps.latitude()
+
+	def latitude_to_string(self):
+		return self.gps.latitude_string()
+	
+	def longitude_to_string(self):
+		return self.gps.longitude_string()
