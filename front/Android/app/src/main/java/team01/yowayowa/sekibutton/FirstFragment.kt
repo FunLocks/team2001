@@ -15,6 +15,9 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 /**
@@ -74,10 +77,16 @@ class FirstFragment : Fragment() {
             return
         }
         try {
-            if (!SW) {
-                McameraManager.setTorchMode(McameraID!!, true)
-            } else {
-                McameraManager.setTorchMode(McameraID!!, false)
+            //非同期でカメラを5回点滅させる
+            GlobalScope.launch{
+                for (i in 1..10){
+                    if (!SW) {
+                        McameraManager.setTorchMode(McameraID!!, true)
+                    } else {
+                        McameraManager.setTorchMode(McameraID!!, false)
+                    }
+                    delay(100L)
+                }
             }
         } catch (e: CameraAccessException) {
             //エラー処理
