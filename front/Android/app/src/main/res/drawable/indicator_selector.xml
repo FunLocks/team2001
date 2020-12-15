@@ -2,12 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true">
         <shape android:innerRadius="0dp" android:shape="ring" android:thickness="4dp" android:useLevel="false">
-            <solid android:color="#000" />
+            <solid android:color="@color/IndicatorPrimary" />
         </shape>
     </item>
     <item>
         <shape android:innerRadius="0dp" android:shape="ring" android:thickness="4dp" android:useLevel="false">
-            <solid android:color="#CCCCCC" />
+            <solid android:color="@color/IndicatorSub" />
         </shape>
     </item>
 </selector>
