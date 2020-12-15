@@ -3,6 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:title="ボタン">
+        <SwitchPreferenceCompat
+            app:key="lightIsEnable"
+            android:title="ボタン押下時のライト点滅"
+            android:summary="ライトの点滅によって周囲に警告を行います"
+            app:iconSpaceReserved="false"
+            app:defaultValue="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <SeekBarPreference
+            app:key="seVolume"
+            android:title="音量"
+            android:summary="ボタン押下時のSEの音量を調節します"
+            android:defaultValue="12"
+            app:iconSpaceReserved="false"
+            app:showSeekBarValue="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory
         app:key="debug"
         app:iconSpaceReserved="false"
         android:title="デバッグ"
