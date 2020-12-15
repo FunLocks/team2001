@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:layout_marginTop="?attr/actionBarSize"
+    tools:layout_marginBottom="40dp"
     tools:context=".FirstFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
