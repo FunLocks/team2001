@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        //viewPager & indicator
         val viewPager = findViewById<ViewPager2>(R.id.viewPager2)
         viewPager.adapter = PagerAdapter(this)
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
