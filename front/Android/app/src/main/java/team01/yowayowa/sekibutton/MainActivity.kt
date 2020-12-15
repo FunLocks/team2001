@@ -6,6 +6,9 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,11 +16,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        val viewPager = findViewById<ViewPager2>(R.id.viewPager2)
+        viewPager.adapter = PagerAdapter(this)
+        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        val indicator = findViewById<TabLayout>(R.id.indicator)
+        TabLayoutMediator(indicator, viewPager) { _, _ -> }.attach()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
