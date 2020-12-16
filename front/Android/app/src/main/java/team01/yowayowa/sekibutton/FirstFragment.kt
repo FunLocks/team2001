@@ -71,6 +71,7 @@ class FirstFragment : Fragment() {
             .setMaxStreams(2)
             .build()
 
+        // R.raw.soiya* はignoreしているので、ビルド時よしなに /raw にファイルを格納すること
         soiya = soundPool.load(context, R.raw.soiya, 1)
         soiyaMix = soundPool.load(context, R.raw.soiya_mix, 1)
 
@@ -80,10 +81,11 @@ class FirstFragment : Fragment() {
         }
     }
 
+    //カメラ権限おねだり関数
     private fun requestCameraPermission() {
         // カメラ権限あり
         if (checkSelfPermission(requireContext(),Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            flushTorch()
+            flushTorch(5)
             return
         }
         // カメラ権限なし
@@ -94,14 +96,17 @@ class FirstFragment : Fragment() {
         requestPermissions(arrayOf(Manifest.permission.CAMERA), 200)
     }
 
-    private fun flushTorch(){
+    /**
+     * ライトを0.2秒間隔で[n]回点滅させます
+     */
+    private fun flushTorch(n : Int){
         if (McameraID == null) {
             return
         }
         try {
-            //非同期でカメラを5回点滅させる
+            //非同期でカメラをn回点滅させる
             GlobalScope.launch{
-                for (i in 1..10){
+                repeat(n*2){
                     if (!SW) {
                         McameraManager.setTorchMode(McameraID!!, true)
                     } else {
@@ -116,6 +121,7 @@ class FirstFragment : Fragment() {
         }
     }
 
+    //soiyaMixを再生します
     private fun playSound(){
         soundPool.play(soiyaMix,1.0f,1.0f,1,0,1.0f)
     }
