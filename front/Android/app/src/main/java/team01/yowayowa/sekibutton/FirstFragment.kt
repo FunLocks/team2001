@@ -6,7 +6,9 @@ import android.content.pm.PackageManager
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CameraManager.TorchCallback
+import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.media.SoundPool
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -19,7 +21,6 @@ import androidx.fragment.app.Fragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.NullPointerException
 
 
 /**
@@ -27,7 +28,9 @@ import java.lang.NullPointerException
  */
 class FirstFragment : Fragment() {
 
-    private lateinit var soiya : MediaPlayer
+    private lateinit var soundPool: SoundPool
+    private var soiya = 0
+    private var soiyaMix = 0
     private lateinit var  McameraManager : CameraManager
     private var McameraID: String? = null
     private var SW : Boolean = false
@@ -43,8 +46,9 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        McameraManager = activity?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
         //ライト点灯用
+        McameraManager = activity?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+
         McameraManager.registerTorchCallback(object : TorchCallback() {
             override fun onTorchModeChanged(
                 cameraId: String,
@@ -56,13 +60,24 @@ class FirstFragment : Fragment() {
             }
         }, Handler())
 
+        //Audio系セットアップ
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .build()
+
+        soundPool = SoundPool.Builder()
+            .setAudioAttributes(audioAttributes)
+            .setMaxStreams(2)
+            .build()
+
+        soiya = soundPool.load(context, R.raw.soiya, 1)
+        soiyaMix = soundPool.load(context, R.raw.soiya_mix, 1)
+
         view.findViewById<ImageButton>(R.id.imageButton).setOnClickListener {
             requestCameraPermission()
             playSound()
         }
-
-        soiya = MediaPlayer.create(context,R.raw.soiya)
-        soiya.isLooping = false
     }
 
     private fun requestCameraPermission() {
@@ -102,6 +117,6 @@ class FirstFragment : Fragment() {
     }
 
     private fun playSound(){
-        soiya.start()
+        soundPool.play(soiyaMix,1.0f,1.0f,1,0,1.0f)
     }
 }
