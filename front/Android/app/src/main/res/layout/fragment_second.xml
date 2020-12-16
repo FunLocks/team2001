@@ -32,6 +32,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/webButton"
+            android:clickable="true"
             android:layout_width="300dp"
             android:layout_height="400dp"
             android:layout_marginTop="28dp"
