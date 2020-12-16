@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraManager
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
@@ -20,7 +21,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),LocationListener {
 
     lateinit var mLocationManager : LocationManager
     private var myLocate : Location? = null
@@ -106,10 +107,36 @@ class MainActivity : AppCompatActivity() {
         mLocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == 0){
-            myLocate = mLocationManager!!.getLastKnownLocation("gps")
-            if(myLocate == null){
-                myLocate = mLocationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            when {
+                mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> {
+                    myLocate = mLocationManager!!.getLastKnownLocation("gps")
+                    mLocationManager.requestLocationUpdates("gps",1000,10F,this)
+                }
+                mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> {
+                    myLocate = mLocationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000,10F,this)
+                }
+                else -> {
+                    //GPSが取れなかった時の処理
+                    return
+                }
             }
         }
+    }
+
+    override fun onLocationChanged(location: Location?) {
+        Toast.makeText(this,location?.latitude.toString(),Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onProviderEnabled(provider: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onProviderDisabled(provider: String?) {
+        TODO("Not yet implemented")
     }
 }
