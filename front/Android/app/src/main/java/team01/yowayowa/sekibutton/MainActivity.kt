@@ -1,6 +1,8 @@
 package team01.yowayowa.sekibutton
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -36,8 +38,16 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                openPreferenceActivity()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun openPreferenceActivity(){
+        val intent = Intent(applicationContext,SettingsActivity::class.java)
+        startActivity(intent)
     }
 }
