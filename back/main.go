@@ -62,7 +62,7 @@ func getFromWeb() gin.HandlerFunc {
 	db := gormConnect()
 	// result := db.Table("locations").Last(&loc)
 	result := map[string]interface{}{}
-	db.Model(&Location{}).First(&result)
+	db.Model(&Location{}).Last(&result)
 	return func(c *gin.Context) {
 		c.JSON(200, result)
 	}
