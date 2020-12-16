@@ -60,8 +60,8 @@ func getFromWeb() gin.HandlerFunc {
 func gormConnect() *gorm.DB {
 	USER := "yowa"
 	PASS := "yowayowa01"
-	PROTOCOL := "tcp(localhost)"
-	DBNAME := "test1"
+	PROTOCOL := "tcp(mysql:3306)"
+	DBNAME := "database"
 	// DBNAME := "yowayowa" // 本番
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"
 	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
