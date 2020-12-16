@@ -124,8 +124,15 @@ class MainActivity : AppCompatActivity(),LocationListener {
         }
     }
 
+
+    internal fun sendToServer(){
+        TODO("ここにサーバーへのjson送信処理を書く")
+    }
+
     override fun onLocationChanged(location: Location?) {
-        Toast.makeText(this,location?.latitude.toString(),Toast.LENGTH_SHORT).show()
+        myLocate = location
+
+        Toast.makeText(this,"change : "+myLocate?.latitude.toString(),Toast.LENGTH_SHORT).show()
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {

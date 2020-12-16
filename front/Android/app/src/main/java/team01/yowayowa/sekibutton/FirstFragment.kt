@@ -75,8 +75,10 @@ class FirstFragment : Fragment() {
         soiyaMix = soundPool.load(context, R.raw.soiya_mix, 1)
 
         view.findViewById<ImageButton>(R.id.imageButton).setOnClickListener {
-            requestCameraPermission()
             playSound()
+            requestCameraPermission()
+            val maActivity = activity as MainActivity?
+            maActivity?.sendToServer()
         }
     }
 
