@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CameraManager.TorchCallback
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.NullPointerException
 
 
 /**
@@ -25,6 +27,7 @@ import kotlinx.coroutines.launch
  */
 class FirstFragment : Fragment() {
 
+    private lateinit var soiya : MediaPlayer
     private lateinit var  McameraManager : CameraManager
     private var McameraID: String? = null
     private var SW : Boolean = false
@@ -55,7 +58,11 @@ class FirstFragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.imageButton).setOnClickListener {
             requestCameraPermission()
+            playSound()
         }
+
+        soiya = MediaPlayer.create(context,R.raw.soiya)
+        soiya.isLooping = false
     }
 
     private fun requestCameraPermission() {
@@ -92,5 +99,9 @@ class FirstFragment : Fragment() {
             //エラー処理
             e.printStackTrace()
         }
+    }
+
+    private fun playSound(){
+        soiya.start()
     }
 }
