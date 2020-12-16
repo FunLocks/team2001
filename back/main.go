@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -21,12 +20,12 @@ func main() {
 
 	r := gin.Default()
 	r.GET("/get", getFromWeb())
-	r.POST("/post", postFromApp("hoge"))
+	r.POST("/post", postFromApp())
 	r.Run()
 
 }
 
-func postFromApp(arg string) gin.HandlerFunc {
+func postFromApp() gin.HandlerFunc {
 
 	// DBに書き込む処理をする
 	return func(c *gin.Context) {
@@ -37,10 +36,12 @@ func postFromApp(arg string) gin.HandlerFunc {
 			})
 			return
 		}
+
+		layout := "2006-01-02 15:04:05"
 		loc.ID = 0
-		loc.CreatedAt, _ = time.Parse("20006-01-02", c.Param("createdat"))
-		loc.Latitude, _ = strconv.ParseFloat(c.Param("latitude"), 64)
-		loc.Longitude, _ = strconv.ParseFloat(c.Param("longitude"), 64)
+		loc.PushTime, _ = time.Parse(layout, c.Param("push_time"))
+		loc.Latitude = c.Param("latitude")
+		loc.Longitude = c.Param("longitude")
 		insertOneRecord(loc)
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -78,7 +79,8 @@ func gormConnect() *gorm.DB {
 func insertOneRecord(loc Location) {
 	db := gormConnect()
 	defer db.Close()
-	// db.NewRecord(loc)
+	db.AutoMigrate(&Location{})
+	db.NewRecord(loc)
 	db.Create(&loc)
 
 }
@@ -94,7 +96,7 @@ func insertMenyRecord(locs []Location) {
 // Location GPSモジュールから飛んでくるやつ
 type Location struct {
 	ID        int       `json:"id"`
-	CreatedAt time.Time `json:"createdAt"`
-	Latitude  float64   `json:"latitude"`
-	Longitude float64   `json:"longitude"`
+	PushTime  time.Time `json:"push_time" time_format:"2006-01-02 15:04:05"`
+	Latitude  string    `json:"latitude"`
+	Longitude string    `json:"longitude"`
 }
