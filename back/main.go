@@ -7,8 +7,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	// "github.com/jinzhu/gorm"
-	// _ "github.com/jinzhu/gorm/dialects/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -29,6 +27,7 @@ func main() {
 
 }
 
+// postFromApp Andoroidが呼ぶ本体
 func postFromApp() gin.HandlerFunc {
 
 	// DBに書き込む処理をする
@@ -40,14 +39,6 @@ func postFromApp() gin.HandlerFunc {
 			})
 			return
 		}
-
-		// layout := "2006-01-02 15:04:05"
-		loc.ID = 0
-		// loc.PushTime, _ = time.Parse(layout, c.Param("push_time"))
-		loc.CreatedAt = time.Now()
-		loc.Latitude = c.Param("latitude")
-		loc.Longitude = c.Param("longitude")
-		fmt.Println(c.Param("latitude"))
 		insertOneRecord(loc)
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -58,9 +49,7 @@ func postFromApp() gin.HandlerFunc {
 // Webが呼ぶやつ
 func getFromWeb() gin.HandlerFunc {
 	// DBから取得する処理
-	// var loc Location
 	db := gormConnect()
-	// result := db.Table("locations").Last(&loc)
 	result := map[string]interface{}{}
 	db.Model(&Location{}).Last(&result)
 	return func(c *gin.Context) {
@@ -69,20 +58,18 @@ func getFromWeb() gin.HandlerFunc {
 }
 
 func gormConnect() *gorm.DB {
-	// DBMS := "mysql"
 	USER := "yowa"
 	PASS := "yowayowa01"
 	PROTOCOL := "tcp(localhost)"
-	DBNAME := "test"
+	DBNAME := "test1"
+	// DBNAME := "yowayowa" // 本番
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"
-	// db, err := gorm.Open(DBMS, CONNECT)
 	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
 
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
 	}
-	fmt.Println("db connectd: ", &db)
 	return db
 }
 
@@ -95,7 +82,6 @@ func createDB() {
 
 func insertOneRecord(loc Location) {
 	db := gormConnect()
-	// defer db.Close()
 
 	db.Migrator().AutoMigrate(&Location{
 		ID:        0,
@@ -103,7 +89,6 @@ func insertOneRecord(loc Location) {
 		Latitude:  "",
 		Longitude: "",
 	})
-	// db.NewRecord(loc)
 	fmt.Print("test: ")
 	fmt.Printf("%v+", &loc)
 	db.Create(&loc)
@@ -112,7 +97,6 @@ func insertOneRecord(loc Location) {
 
 func insertMenyRecord(locs []Location) {
 	db := gormConnect()
-	// defer db.Close()
 	for _, loc := range locs {
 		db.Create(&loc)
 	}
@@ -122,6 +106,6 @@ func insertMenyRecord(locs []Location) {
 type Location struct {
 	ID        int `gorm:"primary_key"`
 	CreatedAt time.Time
-	Latitude  string `json:"latitude" gorm:"size:256"`
-	Longitude string `json:"longitude" gorm:"size:256"`
+	Latitude  string `json:"latitude" gorm:"size:255"`
+	Longitude string `json:"longitude" gorm:"size:255"`
 }
