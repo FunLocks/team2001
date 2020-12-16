@@ -7,8 +7,10 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	// "github.com/jinzhu/gorm"
+	// _ "github.com/jinzhu/gorm/dialects/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 // ほしそうなクエリ
@@ -17,6 +19,8 @@ import (
 // - GET  レコード全件取得
 
 func main() {
+
+	createDB()
 
 	r := gin.Default()
 	r.GET("/get", getFromWeb())
@@ -37,11 +41,13 @@ func postFromApp() gin.HandlerFunc {
 			return
 		}
 
-		layout := "2006-01-02 15:04:05"
+		// layout := "2006-01-02 15:04:05"
 		loc.ID = 0
-		loc.PushTime, _ = time.Parse(layout, c.Param("push_time"))
+		// loc.PushTime, _ = time.Parse(layout, c.Param("push_time"))
+		loc.CreatedAt = time.Now()
 		loc.Latitude = c.Param("latitude")
 		loc.Longitude = c.Param("longitude")
+		fmt.Println(c.Param("latitude"))
 		insertOneRecord(loc)
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -52,21 +58,25 @@ func postFromApp() gin.HandlerFunc {
 // Webが呼ぶやつ
 func getFromWeb() gin.HandlerFunc {
 	// DBから取得する処理
+	// var loc Location
+	db := gormConnect()
+	// result := db.Table("locations").Last(&loc)
+	result := map[string]interface{}{}
+	db.Model(&Location{}).First(&result)
 	return func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
+		c.JSON(200, result)
 	}
 }
 
 func gormConnect() *gorm.DB {
-	DBMS := "mysql"
+	// DBMS := "mysql"
 	USER := "yowa"
 	PASS := "yowayowa01"
 	PROTOCOL := "tcp(localhost)"
 	DBNAME := "test"
-	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME
-	db, err := gorm.Open(DBMS, CONNECT)
+	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"
+	// db, err := gorm.Open(DBMS, CONNECT)
+	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
 
 	if err != nil {
 		fmt.Println(err)
@@ -76,18 +86,33 @@ func gormConnect() *gorm.DB {
 	return db
 }
 
+func createDB() {
+	db := gormConnect()
+	if !db.Migrator().HasTable("locations") {
+		db.Migrator().CreateTable(&Location{})
+	}
+}
+
 func insertOneRecord(loc Location) {
 	db := gormConnect()
-	defer db.Close()
-	db.AutoMigrate(&Location{})
-	db.NewRecord(loc)
+	// defer db.Close()
+
+	db.Migrator().AutoMigrate(&Location{
+		ID:        0,
+		CreatedAt: time.Time{},
+		Latitude:  "",
+		Longitude: "",
+	})
+	// db.NewRecord(loc)
+	fmt.Print("test: ")
+	fmt.Printf("%v+", &loc)
 	db.Create(&loc)
 
 }
 
 func insertMenyRecord(locs []Location) {
 	db := gormConnect()
-	defer db.Close()
+	// defer db.Close()
 	for _, loc := range locs {
 		db.Create(&loc)
 	}
@@ -95,8 +120,8 @@ func insertMenyRecord(locs []Location) {
 
 // Location GPSモジュールから飛んでくるやつ
 type Location struct {
-	ID        int       `json:"id"`
-	PushTime  time.Time `json:"push_time" time_format:"2006-01-02 15:04:05"`
-	Latitude  string    `json:"latitude"`
-	Longitude string    `json:"longitude"`
+	ID        int `gorm:"primary_key"`
+	CreatedAt time.Time
+	Latitude  string `json:"latitude" gorm:"size:256"`
+	Longitude string `json:"longitude" gorm:"size:256"`
 }
