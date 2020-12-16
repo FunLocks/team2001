@@ -126,24 +126,22 @@ class MainActivity : AppCompatActivity(),LocationListener {
 
 
     internal fun sendToServer(){
-        TODO("ここにサーバーへのjson送信処理を書く")
+        //TODO("ここにサーバーへのjson送信処理を書く")
     }
 
     override fun onLocationChanged(location: Location?) {
         myLocate = location
-
-        Toast.makeText(this,"change : "+myLocate?.latitude.toString(),Toast.LENGTH_SHORT).show()
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun onProviderEnabled(provider: String?) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun onProviderDisabled(provider: String?) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }

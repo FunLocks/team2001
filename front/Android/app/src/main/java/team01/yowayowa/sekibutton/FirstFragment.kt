@@ -77,8 +77,8 @@ class FirstFragment : Fragment() {
         view.findViewById<ImageButton>(R.id.imageButton).setOnClickListener {
             playSound()
             requestCameraPermission()
-            val maActivity = activity as MainActivity?
-            maActivity?.sendToServer()
+            val mainActivity = activity as MainActivity?
+            mainActivity?.sendToServer()
         }
     }
 
