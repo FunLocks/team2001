@@ -7,7 +7,6 @@ import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CameraManager.TorchCallback
 import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.media.SoundPool
 import android.os.Bundle
 import android.os.Handler
