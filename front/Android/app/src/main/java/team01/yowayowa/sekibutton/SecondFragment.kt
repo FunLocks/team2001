@@ -1,5 +1,7 @@
 package team01.yowayowa.sekibutton
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,6 +29,10 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val webButton = view.findViewById<ConstraintLayout>(R.id.webButton)
         webButton.setOnClickListener {
+            val url : String = "https://github.com/FunLocks/team2001"
+            val uri : Uri = Uri.parse(url)
+            val intent :Intent = Intent(Intent.ACTION_VIEW,uri)
+            startActivity(intent)
             Toast.makeText(context,"クリックされました",Toast.LENGTH_SHORT).show()
         }
     }
