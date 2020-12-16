@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
 
 /**
@@ -23,6 +25,9 @@ class SecondFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val webButton = view.findViewById<ConstraintLayout>(R.id.webButton)
+        webButton.setOnClickListener {
+            Toast.makeText(context,"クリックされました",Toast.LENGTH_SHORT).show()
+        }
     }
 }
