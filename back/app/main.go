@@ -48,9 +48,9 @@ func postFromApp() gin.HandlerFunc {
 		geo.Latitude = lat
 		geo.Longitude = lon
 		geo.Geodata = *geocode.GetAddressFromCoord(geo.Latitude, geo.Longitude)
-		//result := geocode.GetAddressFromCoord(lat, lon)
 		fmt.Println(geo.GetCityName())
-		// fmt.Println(result)
+		//fmt.Println(geo.GetLatitude())
+		//fmt.Println(geo.GetLongitude())
 		// &loc.Latitude = ~~~~
 		// &lcc.Longitude = ~~~~~~
 		insertOneRecord(loc)
