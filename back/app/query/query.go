@@ -40,7 +40,7 @@ func PostFromApp() gin.HandlerFunc {
 	}
 }
 
-// Webが呼ぶやつ
+// GetOneRecord GETメソッドの本体
 func GetOneRecord() gin.HandlerFunc {
 	// DBから取得する処理
 	db := gormdb.GormConnect()
