@@ -24,7 +24,8 @@ func main() {
 	createDB()
 
 	r := gin.Default()
-	r.GET("/get", getFromWeb())
+	r.GET("/get", getOneRecord())
+	r.GET("/getall", getAllRecord())
 	r.POST("/post", postFromApp())
 	r.Run()
 
@@ -60,11 +61,20 @@ func postFromApp() gin.HandlerFunc {
 }
 
 // Webが呼ぶやつ
-func getFromWeb() gin.HandlerFunc {
+func getOneRecord() gin.HandlerFunc {
 	// DBから取得する処理
 	db := gormConnect()
 	result := map[string]interface{}{}
 	db.Model(&Location{}).Last(&result)
+	return func(c *gin.Context) {
+		c.JSON(200, result)
+	}
+}
+
+func getAllRecord() gin.HandlerFunc {
+	db := gormConnect().Model(&Location{})
+	result := []map[string]interface{}{}
+	db.Order("id").Find(&result)
 	return func(c *gin.Context) {
 		c.JSON(200, result)
 	}
