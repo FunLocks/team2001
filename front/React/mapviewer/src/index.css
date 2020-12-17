@@ -20,8 +20,14 @@ body{
     flex: 1 1 0%;
     font-size: 21px;
     font-weight: 400;
-    padding: 0 12px;
+    padding-left: 14px;
+}
+
+.sub{
+    font-size: 12px;
+    flex: 1 1 100%;
 }
 
 .main{
+    margin: 0 12px;
 }
