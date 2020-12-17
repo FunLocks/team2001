@@ -11,6 +11,7 @@ import (
 	"gorm.io/gorm"
 
 	"./geocode"
+	"./geoparser"
 )
 
 // ほしそうなクエリ
@@ -42,7 +43,12 @@ func postFromApp() gin.HandlerFunc {
 			return
 		}
 		lat, lon := "41.842017200619324", "140.76738712083056"
-		result := geocode.GetAddressFromCoord(lat, lon)
+		var c geoparser.Coord
+		c.Latitude = lat
+		c.Longitude = lon
+		c.Geodata = &geocode.GetAddressFromCoord(Coord.Latitude, Coord.Longitude)
+		//result := geocode.GetAddressFromCoord(lat, lon)
+		fmt.Println(geoparser.GetCityName())
 		fmt.Println(result)
 		// &loc.Latitude = ~~~~
 		// &lcc.Longitude = ~~~~~~
