@@ -1,0 +1,62 @@
+package query
+
+import (
+	"fmt"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+
+	"../geocode"
+	"../geoparser"
+	"../gormdb"
+)
+
+// PostFromApp Andoroidが呼ぶ本体
+func PostFromApp() gin.HandlerFunc {
+
+	// DBに書き込む処理をする
+	return func(c *gin.Context) {
+		var loc gormdb.Location
+		if err := c.ShouldBindJSON(&loc); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+		lat, lon := loc.RawLatitude, loc.RawLongitude
+		var geo geoparser.Coord
+		geo.Latitude = lat
+		geo.Longitude = lon
+		geo.Geodata = *geocode.GetAddressFromCoord(geo.Latitude, geo.Longitude)
+		fmt.Println(geo.GetCityName())
+		//fmt.Println(geo.GetLatitude())
+		//fmt.Println(geo.GetLongitude())
+		// &loc.Latitude = ~~~~
+		// &lcc.Longitude = ~~~~~~
+		gormdb.InsertOneRecord(loc)
+		c.JSON(http.StatusOK, gin.H{
+			"status": "ok",
+		})
+	}
+}
+
+// GetOneRecord GETメソッドの本体
+func GetOneRecord() gin.HandlerFunc {
+	// DBから取得する処理
+	db := gormdb.GormConnect()
+	result := map[string]interface{}{}
+	db.Model(&gormdb.Location{}).Last(&result)
+	return func(c *gin.Context) {
+		c.JSON(200, result)
+	}
+}
+
+// GetAllRecord レコードを全県取得
+func GetAllRecord() gin.HandlerFunc {
+	db := gormdb.GormConnect().Model(&gormdb.Location{})
+	result := []map[string]interface{}{}
+	db.Order("id").Find(&result)
+	return func(c *gin.Context) {
+		c.JSON(200, result)
+	}
+}
