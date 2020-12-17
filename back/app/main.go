@@ -9,6 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+
+	"./geocode"
+	"./geoparser"
 )
 
 // ほしそうなクエリ
@@ -39,6 +42,16 @@ func postFromApp() gin.HandlerFunc {
 			})
 			return
 		}
+		lat, lon := loc.RawLatitude, loc.RawLongitude
+		var geo geoparser.Coord
+		geo.Latitude = lat
+		geo.Longitude = lon
+		geo.Geodata = *geocode.GetAddressFromCoord(geo.Latitude, geo.Longitude)
+		//result := geocode.GetAddressFromCoord(lat, lon)
+		fmt.Println(geo.GetCityName())
+		// fmt.Println(result)
+		// &loc.Latitude = ~~~~
+		// &lcc.Longitude = ~~~~~~
 		insertOneRecord(loc)
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -61,7 +74,7 @@ func gormConnect() *gorm.DB {
 	USER := "yowa"
 	PASS := "yowayowa01"
 	PROTOCOL := "tcp(mysql:3306)"
-	DBNAME := "database"
+	DBNAME := "ahchoo"
 	// DBNAME := "yowayowa" // 本番
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"
 	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
@@ -104,10 +117,13 @@ func insertMenyRecord(locs []Location) {
 
 // Location GPSモジュールから飛んでくるやつ
 type Location struct {
-	ID          int `gorm:"primary_key"`
-	CreatedAt   time.Time
-	Latitude    string `json:"latitude" gorm:"size:255"`
-	Longitude   string `json:"longitude" gorm:"size:255"`
-	Temprature  string `json:"temprature"`
-	AirPressure string `json:"AirPressure"`
+	ID           int `gorm:"primary_key"`
+	CreatedAt    time.Time
+	RawLatitude  string `json:"latitude" gorm:"size:255"`
+	RawLongitude string `json:"longitude" gorm:"size:255"`
+	Latitude     string `gorm:"size:255"`
+	Longitude    string `gorm:"size:255"`
+	Town         string `gorm:"size:255"`
+	Temprature   string `json:"temprature"`
+	AirPressure  string `json:"AirPressure"`
 }

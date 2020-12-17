@@ -25,7 +25,7 @@ services:
     build: ./back/mysql/
     environment:
       MYSQL_ROOT_PASSWORD: yowayowa01
-      MYSQL_DATABASE: database
+      MYSQL_DATABASE: ahchoo
       MYSQL_USER: yowa
       MYSQL_PASSWORD: yowayowa01
       TZ: 'Asia/Tokyo'
