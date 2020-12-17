@@ -6,7 +6,7 @@ import Main from './Main';
 class App extends React.Component {
     render() {
       return (
-        <div>
+        <div className="container">
           <Header />
           <Main />
         </div>
