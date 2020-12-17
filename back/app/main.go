@@ -9,6 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+
+	"./geocode"
 )
 
 // ほしそうなクエリ
@@ -39,7 +41,9 @@ func postFromApp() gin.HandlerFunc {
 			})
 			return
 		}
-
+		lat, lon := "41.842017200619324", "140.76738712083056"
+		result := geocode.GetAddressFromCoord(lat, lon)
+		fmt.Println(result)
 		// &loc.Latitude = ~~~~
 		// &lcc.Longitude = ~~~~~~
 		insertOneRecord(loc)
@@ -64,7 +68,7 @@ func gormConnect() *gorm.DB {
 	USER := "yowa"
 	PASS := "yowayowa01"
 	PROTOCOL := "tcp(mysql:3306)"
-	DBNAME := "database"
+	DBNAME := "ahchoo"
 	// DBNAME := "yowayowa" // 本番
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"
 	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
