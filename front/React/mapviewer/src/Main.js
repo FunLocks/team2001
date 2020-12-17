@@ -4,7 +4,7 @@ class Main extends React.Component {
   render() {
     return (
       <div className='main'>
-        this is main.
+        <h1>this is main.</h1>
       </div>
     );
   }

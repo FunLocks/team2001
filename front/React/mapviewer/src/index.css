@@ -13,11 +13,12 @@ html,body,.container{
     height: 100%;
     font-size:12px;
     flex: 1;
+    padding-left: 12px;
     background:white;
 }
 
 .sidebar {
-    background-color: black;
+    background-color: #FF4E00;
     width:300px;
     height:100%;
     font-size:12px;
@@ -25,11 +26,16 @@ html,body,.container{
 
 .title {
     color: white;
-    font-size: 21px;
+    text-align: center;
+    margin-block-start: 55px;
+    margin-block-end: 0px;
+    font-size: 48px;
     font-weight: 400;
-    padding-left: 14px;
 }
 
 .sub{
-    font-size: 12px;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
 }
