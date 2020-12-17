@@ -1,7 +1,7 @@
 package geoparser
 
 import (
-	"fmt"
+	//"fmt"
 
 	"../types"
 )
@@ -17,9 +17,9 @@ type Coord struct {
 func (c *Coord) GetCityName() string {
 
 	lenAddressComponents := len(c.Geodata.Results[0].AddressComponents)
-	fmt.Println(c.Geodata.Results[0].AddressComponents[lenAddressComponents-3])
-	fmt.Println(c.Geodata.Results[0].AddressComponents[lenAddressComponents-4])
-	return "hoge"
+	var city    = c.Geodata.Results[0].AddressComponents[lenAddressComponents-3].LongName
+	var country = c.Geodata.Results[0].AddressComponents[lenAddressComponents-4].LongName
+	return city + " " + country
 }
 
 // GetLatitude  write await
