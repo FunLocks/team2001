@@ -60,8 +60,8 @@ func getFromWeb() gin.HandlerFunc {
 func gormConnect() *gorm.DB {
 	USER := "yowa"
 	PASS := "yowayowa01"
-	PROTOCOL := "tcp(localhost)"
-	DBNAME := "test1"
+	PROTOCOL := "tcp(mysql:3306)"
+	DBNAME := "database"
 	// DBNAME := "yowayowa" // 本番
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"
 	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
@@ -104,8 +104,10 @@ func insertMenyRecord(locs []Location) {
 
 // Location GPSモジュールから飛んでくるやつ
 type Location struct {
-	ID        int `gorm:"primary_key"`
-	CreatedAt time.Time
-	Latitude  string `json:"latitude" gorm:"size:255"`
-	Longitude string `json:"longitude" gorm:"size:255"`
+	ID          int `gorm:"primary_key"`
+	CreatedAt   time.Time
+	Latitude    string `json:"latitude" gorm:"size:255"`
+	Longitude   string `json:"longitude" gorm:"size:255"`
+	Temprature  string `json:"temprature"`
+	AirPressure string `json:"AirPressure"`
 }

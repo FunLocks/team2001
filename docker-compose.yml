@@ -1,0 +1,39 @@
+version: "3.2"
+services:
+  go-gin:
+    container_name: go-gin
+    build: ./back/app
+    restart: always
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    ports:
+      - 8080:8080
+        #links:
+        #- mysel
+    tty: 
+      true
+    volumes:
+      - ./back/app:/app
+    command:
+     go run /app/main.go
+ 
+  mysql:
+    container_name: mysql
+    hostname: mysql
+    build: ./back/mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: yowayowa01
+      MYSQL_DATABASE: database
+      MYSQL_USER: yowa
+      MYSQL_PASSWORD: yowayowa01
+      TZ: 'Asia/Tokyo'
+      #command: mysqld --character-set-server=utf8 --collation-server=utf8
+    volumes:
+      - ./back/mysql/mysql:/var/lib/mysql
+    ports:
+      - 3001:3306
+
+
+
