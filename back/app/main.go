@@ -39,6 +39,9 @@ func postFromApp() gin.HandlerFunc {
 			})
 			return
 		}
+
+		// &loc.Latitude = ~~~~
+		// &lcc.Longitude = ~~~~~~
 		insertOneRecord(loc)
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -104,10 +107,13 @@ func insertMenyRecord(locs []Location) {
 
 // Location GPSモジュールから飛んでくるやつ
 type Location struct {
-	ID          int `gorm:"primary_key"`
-	CreatedAt   time.Time
-	Latitude    string `json:"latitude" gorm:"size:255"`
-	Longitude   string `json:"longitude" gorm:"size:255"`
-	Temprature  string `json:"temprature"`
-	AirPressure string `json:"AirPressure"`
+	ID           int `gorm:"primary_key"`
+	CreatedAt    time.Time
+	RawLatitude  string `json:"latitude" gorm:"size:255"`
+	RawLongitude string `json:"longitude" gorm:"size:255"`
+	Latitude     string `gorm:"size:255"`
+	Longitude    string `gorm:"size:255"`
+	Town         string `gorm:"size:255"`
+	Temprature   string `json:"temprature"`
+	AirPressure  string `json:"AirPressure"`
 }
