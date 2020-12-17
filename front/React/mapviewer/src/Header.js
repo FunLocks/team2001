@@ -5,7 +5,7 @@ class Header extends React.Component {
     return (
       <div className='header'>
         <div className='title'>
-            ACHOOO!
+            AHCHOO!
         </div>
         <div className='title sub'>
             くしゃみ/咳のマップビューワー
