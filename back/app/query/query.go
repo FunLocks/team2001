@@ -1,7 +1,6 @@
 package query
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -23,21 +22,24 @@ func PostFromApp() gin.HandlerFunc {
 			})
 			return
 		}
-		lat, lon := loc.RawLatitude, loc.RawLongitude
+		lat, lng := loc.RawLatitude, loc.RawLongitude
 		var geo geoparser.Coord
 		geo.Latitude = lat
-		geo.Longitude = lon
+		geo.Longitude = lng
 		geo.Geodata = *geocode.GetAddressFromCoord(geo.Latitude, geo.Longitude)
-		fmt.Println(geo.GetCityName())
-		fmt.Println(geo.GetTownName())
+		// fmt.Println(geo.GetCityName())
+		// fmt.Println(geo.GetTownName())
 		var add geoparser.Address
 		add.City = geo.GetCityName()
 		add.Town = geo.GetTownName()
 		add.Geodata = *geocode.GetCoordFromAddress(add.City, add.Town)
-		fmt.Println(add.GetLatitude())
-		fmt.Println(add.GetLongitude())
+		// fmt.Println(add.GetLatitude())
+		// fmt.Println(add.GetLongitude())
 		// &loc.Latitude = ~~~~
 		// &lcc.Longitude = ~~~~~~
+		loc.Latitude = add.GetLatitude()
+		loc.Longitude = add.GetLongitude()
+		loc.Town = add.City + " " + add.Town
 		gormdb.InsertOneRecord(loc)
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
