@@ -44,8 +44,8 @@ func InsertOneRecord(loc Location) {
 		Latitude:  "",
 		Longitude: "",
 	})
-	fmt.Print("test: ")
-	fmt.Printf("%v+", &loc)
+	// fmt.Print("test: ")
+	// fmt.Printf("%v+", &loc)
 	db.Create(&loc)
 
 }
