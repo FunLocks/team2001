@@ -42,7 +42,7 @@ func postFromApp() gin.HandlerFunc {
 			})
 			return
 		}
-		lat, lon := loc.Latitude, loc.Longitude
+		lat, lon := loc.RawLatitude, loc.RawLongitude
 		var geo geoparser.Coord
 		geo.Latitude = lat
 		geo.Longitude = lon
