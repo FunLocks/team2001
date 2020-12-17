@@ -104,8 +104,10 @@ func insertMenyRecord(locs []Location) {
 
 // Location GPSモジュールから飛んでくるやつ
 type Location struct {
-	ID        int `gorm:"primary_key"`
-	CreatedAt time.Time
-	Latitude  string `json:"latitude" gorm:"size:255"`
-	Longitude string `json:"longitude" gorm:"size:255"`
+	ID          int `gorm:"primary_key"`
+	CreatedAt   time.Time
+	Latitude    string `json:"latitude" gorm:"size:255"`
+	Longitude   string `json:"longitude" gorm:"size:255"`
+	Temprature  string `json:"temprature"`
+	AirPressure string `json:"AirPressure"`
 }
