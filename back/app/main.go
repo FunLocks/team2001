@@ -43,13 +43,13 @@ func postFromApp() gin.HandlerFunc {
 			return
 		}
 		lat, lon := "41.842017200619324", "140.76738712083056"
-		var c geoparser.Coord
-		c.Latitude = lat
-		c.Longitude = lon
-		c.Geodata = &geocode.GetAddressFromCoord(Coord.Latitude, Coord.Longitude)
+		var geo geoparser.Coord
+		geo.Latitude = lat
+		geo.Longitude = lon
+		geo.Geodata = *geocode.GetAddressFromCoord(geo.Latitude, geo.Longitude)
 		//result := geocode.GetAddressFromCoord(lat, lon)
-		fmt.Println(geoparser.GetCityName())
-		fmt.Println(result)
+		fmt.Println(geo.GetCityName())
+		// fmt.Println(result)
 		// &loc.Latitude = ~~~~
 		// &lcc.Longitude = ~~~~~~
 		insertOneRecord(loc)
