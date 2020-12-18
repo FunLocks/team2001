@@ -11,7 +11,7 @@ class AhchooCounter extends React.Component{
     }
   }
   
-  componentWillMount() {
+  fetchAPI = () =>{
     //return fetch('http://192.168.20.155:8080/get')//test server
     fetch('http://153.120.166.49:8080/ahchoo/one-hour')
       .then((response) => response.json())
@@ -57,6 +57,15 @@ class AhchooCounter extends React.Component{
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  componentWillMount() {
+    this.fetchAPI()
+    this.timerID = setInterval(this.fetchAPI, 10000);
+  }
+  
+  componentWillUnmount(){
+    clearInterval(this.timerID);
   }
 
   render(){
