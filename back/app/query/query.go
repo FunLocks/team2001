@@ -22,10 +22,10 @@ func PostFromApp() gin.HandlerFunc {
 			})
 			return
 		}
-		lat, lon := loc.RawLatitude, loc.RawLongitude
+		lat, lng := loc.RawLatitude, loc.RawLongitude
 		var geo geoparser.Coord
 		geo.Latitude = lat
-		geo.Longitude = lon
+		geo.Longitude = lng
 		geo.Geodata = *geocode.GetAddressFromCoord(geo.Latitude, geo.Longitude)
 		// fmt.Println(geo.GetCityName())
 		// fmt.Println(geo.GetTownName())
@@ -36,6 +36,7 @@ func PostFromApp() gin.HandlerFunc {
 		add.Geodata = *geocode.GetCoordFromAddress(add.City, add.Town)
 		// fmt.Println(add.GetLatitude())
 		// fmt.Println(add.GetLongitude())
+
 		loc.Latitude = add.GetLatitude()
 		loc.Longitude = add.GetLongitude()
 		loc.Town = add.City + " " + add.Town
