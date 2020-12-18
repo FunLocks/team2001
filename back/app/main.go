@@ -22,10 +22,14 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"}}))
-	r.GET("/get", query.GetOneRecord)
-	r.GET("/getall", query.GetAllRecord)
-	r.POST("/post", query.PostFromApp)
-	r.Run()
+	r.GET("/ahchoo/get", query.GetOneRecord)
+	r.GET("/ahchoo/getall", query.GetAllRecord)
+	r.GET("/ahchoo/one-hour", query.GetOneHour)
+	r.GET("/ahchoo/one-day", query.GetOneDay)
+	r.GET("/ahchoo/seven-days", query.GetSevenDays)
+	r.GET("/ahchoo/thiry-days", query.GetThirtyDays)
+	r.POST("/ahchoo/post", query.PostFromApp)
+	r.Run(":8080")
 	fmt.Println("after run")
 
 }
