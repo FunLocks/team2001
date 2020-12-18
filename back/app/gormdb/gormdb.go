@@ -39,13 +39,18 @@ func InsertOneRecord(loc Location) {
 	db := GormConnect()
 
 	db.Migrator().AutoMigrate(&Location{
-		ID:        0,
-		CreatedAt: time.Time{},
-		Latitude:  "",
-		Longitude: "",
+		ID:           0,
+		CreatedAt:    time.Time{},
+		RawLatitude:  "",
+		RawLongitude: "",
+		Latitude:     "",
+		Longitude:    "",
+		Town:         "",
+		Temprature:   "",
+		AirPressure:  "",
 	})
-	fmt.Print("test: ")
-	fmt.Printf("%v+", &loc)
+	// fmt.Print("test: ")
+	// fmt.Printf("%v+", &loc)
 	db.Create(&loc)
 
 }
@@ -65,7 +70,7 @@ type Location struct {
 	RawLongitude string `json:"longitude" gorm:"size:255"`
 	Latitude     string `gorm:"size:255"`
 	Longitude    string `gorm:"size:255"`
-	Town         string `gorm:"size:255"`
+	Town         string `json:"town" gorm:"size:255"`
 	Temprature   string `json:"temprature"`
 	AirPressure  string `json:"AirPressure"`
 }
