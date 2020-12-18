@@ -39,6 +39,14 @@ class MainActivity : AppCompatActivity(),LocationListener {
         TabLayoutMediator(indicator, viewPager) { _, _ -> }.attach()
 
         checkLocationPermission()
+        //初回のみ
+        if (PreferencesUtil().isFirstJudgment(this)){
+            PreferencesUtil().setFirstFlag(this)
+            val intent = Intent(this, WalkThroughActivity::class.java)
+            //帰ってこれなくする
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
