@@ -18,6 +18,10 @@ Webアプリからみんなのくしゃみを確認。くしゃみは決して�
 
 **幅広いレイヤー**を網羅しており、一貫してくしゃみのことだけを考え続けた。
 
+### 紹介映像
+
+[<img width="1387" alt="スクリーンショット 2020-12-19 8 45 48" src="https://user-images.githubusercontent.com/37332703/102673248-af9c6080-41d6-11eb-86d5-c5152205c934.png">](https://drive.google.com/file/d/1VvD_6N5HkhK_lSCLxW5gfK143ZFPoDv9/view?usp=sharing)  
+
 ### スクリーンショット(任意)
 ![promotion_ver10_アートボード 1](https://user-images.githubusercontent.com/37332703/102672562-74992d80-41d4-11eb-9337-2eb545748928.png)  
 
