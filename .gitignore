@@ -9,4 +9,4 @@ back/app/main
 #[hard]
 
 hard/*.pyc
-
+hard/__pycache__
