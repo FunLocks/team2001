@@ -12,10 +12,15 @@ const hakodate2 = {
   lng: 136.70437368224884 
 };
  
-var myCircles = [];
-var myRadiuss = [];
-var myDeleteFrags = [];
 class Map extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        myCircles : [],
+        myRadiuss: [],
+        myDeleteFrags : []
+      };
+    }
     static defaultProps = {
       center: {
         lat: 38.6777701,
@@ -23,31 +28,49 @@ class Map extends React.Component {
       },
     };
   
-    
+    componentDidUpdate(prevProps, prevState, snapshot){
+      console.log("change")
+      if(prevState.myRadiuss != this.state.myRadiuss){
+        for(let i = 0; i < this.state.myRadiuss.length;i++){
+          let newState = this.state.myCircles;
+          newState[i].setRadius(this.state.myRadiuss[i]);
+          this.setState({
+            myRadiuss : newState,
+          })
+          
+          console.log("set");
+          if(this.state.myDeleteFrags[i]){
+            this.state.myCircles[i].setVisible(true);
+          }
+        }
+      }
+    }
     componentDidMount = () => {
         this.timerID = setInterval(this.Update, 100);
         console.log("Mount.");
     };
 
     Update = () => {
-        for(let i = 0; i < myRadiuss.length;i++){
-          var r = myRadiuss[i] * 1.5;
+        for(let i = 0; i < this.state.myRadiuss.length;i++){
+          var r = this.state.myRadiuss[i] * 1.5;
           if(r > 500000){
-            myDeleteFrags[i] = true;
+            let newState = this.state.myDeleteFrags;
+            newState[i] = true;
+            this.setState({
+              myDeleteFrags : newState,
+            })
           }
-          if(!myDeleteFrags[i]) myRadiuss[i] = r;
-        }
-        console.log(myCircles[0]);
-        console.log(myRadiuss[0]);
-        console.log(myDeleteFrags[0]);
-
-        for(let i = 0; i < myRadiuss.length;i++){
-          myCircles[i].setRadius(myRadiuss[i]);
-          console.log("set");
-          if(myDeleteFrags[i]){
-            myCircles[i].setVisible(true);
+          if(!this.state.myDeleteFrags[i]){
+            let newState = this.state.myRadiuss;
+            newState[i] = r;
+            this.setState({
+              myRadiuss : newState,
+            })
           }
         }
+        console.log(this.state.myCircles[0]);
+        console.log(this.state.myRadiuss[0]);
+        console.log(this.state.myDeleteFrags[0]);
     }
 
     apiLoaded = (map,maps,lat,lng) => {
@@ -57,9 +80,9 @@ class Map extends React.Component {
           lat : lat,
           lmg : lng,
         }
-        myDeleteFrags.push(false);
-        myRadiuss.push(1000);
-        myCircles.push(
+        this.state.myDeleteFrags.push(false);
+        this.state.myRadiuss.push(1000);
+        this.state.myCircles.push(
           new maps.Circle({
             strokeColor:'red',
             strokeOpacity:0.8,
@@ -68,7 +91,7 @@ class Map extends React.Component {
             fillOpacity:0,
             map,
             center: lotate,
-            radius: myRadiuss[myRadiuss.length-1],
+            radius: this.state.myRadiuss[this.state.myRadiuss.length-1],
           })
         );
     }
