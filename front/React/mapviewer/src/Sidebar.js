@@ -9,6 +9,21 @@ class AhchooCounter extends React.Component{
       monthOf:0
     }
   }
+  
+  componentWillMount() {
+    return fetch('http://192.168.20.155:8080/get')
+      .then((response) => response.json())
+      .then((responseJson) => (
+          this.setState({
+            dayOf:responseJson.latitude,
+            weekOf:responseJson.longitude,
+          })
+        )
+      )
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   render(){
     return(
