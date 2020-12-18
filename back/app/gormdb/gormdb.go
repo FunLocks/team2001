@@ -49,10 +49,11 @@ func InsertOneRecord(loc Location) {
 		Temprature:   "",
 		AirPressure:  "",
 	})
-	// fmt.Print("test: ")
-	// fmt.Printf("%v+", &loc)
-	db.Create(&loc)
+	db2, _ := db.DB()
 
+	result := db.Create(&loc)
+	defer db2.Close()
+	fmt.Println(result.RowsAffected)
 }
 
 func insertMenyRecord(locs []Location) {

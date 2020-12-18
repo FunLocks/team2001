@@ -1,8 +1,10 @@
 package main
 
 import (
+  "github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-
+  
 	"./gormdb"
 	"./query"
 )
@@ -17,9 +19,17 @@ func main() {
 	gormdb.CreateDB()
 
 	r := gin.Default()
-	r.GET("/get", query.GetOneRecord())
-	r.GET("/getall", query.GetAllRecord())
-	r.POST("/post", query.PostFromApp())
-	r.Run()
+
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"}}))
+	r.GET("/ahchoo/get", query.GetOneRecord)
+	r.GET("/ahchoo/getall", query.GetAllRecord)
+	r.GET("/ahchoo/one-hour", query.GetOneHour)
+	r.GET("/ahchoo/one-day", query.GetOneDay)
+	r.GET("/ahchoo/seven-days", query.GetSevenDays)
+	r.GET("/ahchoo/thiry-days", query.GetThirtyDays)
+	r.POST("/ahchoo/post", query.PostFromApp)
+	r.Run(":8080")
+	fmt.Println("after run")
 
 }
