@@ -26,7 +26,7 @@ if __name__ == '__main__':
 	gps = GPS.GPS()
 	gps.update()
 
-	url = "http://153.120.166.49:8080/post"
+	url = "http://153.120.166.49:8080/ahchoo/post"
 	headers = {"Content-Type" : "application/json"}
 
 	flag = True;
