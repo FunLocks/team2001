@@ -4,6 +4,7 @@ class AhchooCounter extends React.Component{
   constructor(props){
     super(props);
     this.state = {
+      hourOf:0,
       dayOf:0,
       weekOf:0,
       monthOf:0
@@ -11,13 +12,45 @@ class AhchooCounter extends React.Component{
   }
   
   componentWillMount() {
-    //return fetch('http://192.168.20.155:8080/get')
-    return fetch('http://153.120.166.49:8080/get')
+    //return fetch('http://192.168.20.155:8080/get')//test server
+    fetch('http://153.120.166.49:8080/ahchoo/one-hour')
       .then((response) => response.json())
       .then((responseJson) => (
           this.setState({
-            dayOf:responseJson.latitude,
-            weekOf:responseJson.longitude,
+            hourOf:responseJson.length,
+          })
+        )
+      )
+      .catch((error) => {
+        console.error(error);
+      });
+    fetch('http://153.120.166.49:8080/ahchoo/one-day')
+      .then((response) => response.json())
+      .then((responseJson) => (
+          this.setState({
+            dayOf:responseJson.length,
+          })
+        )
+      )
+      .catch((error) => {
+        console.error(error);
+      });
+    fetch('http://153.120.166.49:8080/ahchoo/seven-days')
+      .then((response) => response.json())
+      .then((responseJson) => (
+          this.setState({
+            weekOf:responseJson.length,
+          })
+        )
+      )
+      .catch((error) => {
+        console.error(error);
+      });
+    fetch('http://153.120.166.49:8080/ahchoo/thiry-days')
+      .then((response) => response.json())
+      .then((responseJson) => (
+          this.setState({
+            monthOf:responseJson.length,
           })
         )
       )
@@ -29,11 +62,13 @@ class AhchooCounter extends React.Component{
   render(){
     return(
        <div className="menu">
-         <h1 className="menuTitle">今日のAHCHOO!</h1>
+         <h1 className="menuTitle">1時間以内のAHCHOO!</h1>
+         <h2 className="menuValue">{this.state.hourOf} 回</h2>
+         <h1 className="menuTitle">1日以内のAHCHOO!</h1>
          <h2 className="menuValue">{this.state.dayOf} 回</h2>
-         <h1 className="menuTitle">今週のAHCHOO!</h1>
+         <h1 className="menuTitle">1週間以内のAHCHOO!</h1>
          <h2 className="menuValue">{this.state.weekOf} 回</h2>
-         <h1 className="menuTitle">今月のAHCHOO!</h1>
+         <h1 className="menuTitle">1ヶ月以内のAHCHOO!</h1>
          <h2 className="menuValue">{this.state.monthOf} 回</h2>
       </div>
     );
