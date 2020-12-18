@@ -20,17 +20,23 @@ export class MapContainer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      radius: 12000,
+      radius: 1000,
+      hoge: true,
     };
   }
   componentDidMount = () => {
-    setInterval(this.addRadius, 5000);
+    setInterval(this.addRadius, 100);
     console.log("Mount.");
   };
 
   addRadius = () => {
     console.log(this.state.radius);
-    var r = this.state.radius + 100000;
+    var r = this.state.radius * 2;
+    if(r > 500000){
+      this.setState({
+        hoge:false,
+      });
+    }
     this.setState({
       radius:r,
     });
@@ -43,15 +49,17 @@ export class MapContainer extends React.Component {
           zoom={6} 
           containerStyle={containerStyle}
           initialCenter={initialCenter}>
-            <Circle
-              radius={this.state.radius}
-              center={hakodate}
-              strokeColor='transparent'
-              strokeOpacity={0}
-              strokeWeight={5}
-              fillColor='#FF0000'
-              fillOpacity={0.2}
-            />
+            {this.state.hoge &&
+              <Circle
+                radius={this.state.radius}
+                center={hakodate}
+                strokeColor='red'
+                strokeOpacity={0.8}
+                strokeWeight={7}
+                fillColor='#FF0000'
+                fillOpacity={0}
+              />
+            }
         </Map>
       </div>
     );
