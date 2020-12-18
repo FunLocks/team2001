@@ -50,7 +50,7 @@ func InsertOneRecord(loc Location) {
 		AirPressure:  "",
 	})
 	// fmt.Print("test: ")
-	fmt.Printf("%v+", &loc)
+	// fmt.Printf("%v+", &loc)
 	db.Create(&loc)
 
 }
@@ -70,7 +70,7 @@ type Location struct {
 	RawLongitude string `json:"longitude" gorm:"size:255"`
 	Latitude     string `gorm:"size:255"`
 	Longitude    string `gorm:"size:255"`
-	Town         string `gorm:"size:255"`
+	Town         string `json:"town" gorm:"size:255"`
 	Temprature   string `json:"temprature"`
 	AirPressure  string `json:"AirPressure"`
 }
