@@ -82,8 +82,8 @@ func GetOneHour(c *gin.Context) {
 	db2, _ := db.DB()
 	result := []gormdb.Location{}
 
-	hour := time.Now().Add(-time.Hour).Format(time.RFC3339)
-	db.Order("id").Find(&result).Where("created_at > ?", hour)
+	hour := time.Now().Add(-time.Hour)
+	db.Where("created_at > ?", hour).Order("id").Find(&result)
 	defer db2.Close()
 	c.JSON(http.StatusOK, result)
 }
@@ -93,9 +93,9 @@ func GetOneDay(c *gin.Context) {
 	db := gormdb.GormConnect().Model(&gormdb.Location{})
 	db2, _ := db.DB()
 	result := []gormdb.Location{}
-	// today := time.Now().AddDate(0, 0, -1)
-	// db.Order("id").Find(&result).Where("created_at > ?", today)
-	db.Order("id").Find(&result).Where("created_at BETWEEN 2000-01-01T00:00:00Z AND 2000-01-08T00:00:00Z")
+	today := time.Now().AddDate(0, 0, -1)
+	db.Where("created_at > ?", today).Order("id").Find(&result)
+	// db.Order("id").Find(&result).Where("created_at BETWEEN 2000-01-01T00:00:00Z AND 2000-01-08T00:00:00Z")
 	defer db2.Close()
 	c.JSON(http.StatusOK, result)
 }
@@ -106,7 +106,7 @@ func GetSevenDays(c *gin.Context) {
 	db2, _ := db.DB()
 	result := []gormdb.Location{}
 	lastWeek := time.Now().AddDate(0, 0, -7)
-	db.Order("id").Find(&result).Where("created_at > ?", lastWeek)
+	db.Where("created_at > ?", lastWeek).Order("id").Find(&result)
 	defer db2.Close()
 	c.JSON(http.StatusOK, result)
 }
@@ -117,7 +117,7 @@ func GetThirtyDays(c *gin.Context) {
 	db2, _ := db.DB()
 	result := []gormdb.Location{}
 	lastMonth := time.Now().AddDate(0, -1, 0)
-	db.Order("id").Find(&result).Where("created_at", lastMonth)
+	db.Where("created_at > ?", lastMonth).Order("id").Find(&result)
 	defer db2.Close()
 	c.JSON(http.StatusOK, result)
 }
