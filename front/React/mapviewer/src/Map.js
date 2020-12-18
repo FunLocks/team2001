@@ -139,7 +139,7 @@ class Map extends React.Component {
             bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY}}
             defaultCenter={this.props.center}
             defaultZoom={6}
-            onGoogleApiLoaded={({map, maps}) =>this.apiLoaded(map,maps,hakodate2)}
+            onGoogleApiLoaded={({map, maps}) =>this.apiLoaded(map,maps,hakodate)}
             />
         </div>
       );
