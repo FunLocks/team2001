@@ -39,3 +39,15 @@ html,body,.container{
     font-size: 14px;
     font-weight: bold;
 }
+
+.menu{
+    margin-top: 100px;
+    color: white;
+}
+
+.menuTitle{
+    text-align: center;
+}
+.menuValue{
+    text-align: center;
+}
