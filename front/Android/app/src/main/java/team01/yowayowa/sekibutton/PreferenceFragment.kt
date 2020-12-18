@@ -17,16 +17,14 @@ class PreferenceFragment :PreferenceFragmentCompat(){
             val signaturePreference: PreferenceCategory? = findPreference("debug")
             signaturePreference?.isVisible = true
 
-            /*
             //ウォークスルーの表示を行うクリックリスナー
             val openFirstActivity: PreferenceScreen? = findPreference("openWalkThroughActivity")
             openFirstActivity?.setOnPreferenceClickListener {
-                val intent = Intent(activity, FirstActivity::class.java)
+                val intent = Intent(activity, WalkThroughActivity::class.java)
                 Toast.makeText(activity, "ウォークスルーを強制的に開きます", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
                 true
             }
-            */
         }
     }
 }
