@@ -1,4 +1,12 @@
-.DS_Store
+#[front]
+
+#[back]
+
 back/mysql/mysql/
 back/app/apikey/*
 back/app/main
+
+#[hard]
+
+hard/*.pyc
+
