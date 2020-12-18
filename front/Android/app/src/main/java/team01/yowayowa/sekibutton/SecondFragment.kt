@@ -29,7 +29,7 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val webButton = view.findViewById<ConstraintLayout>(R.id.webButton)
         webButton.setOnClickListener {
-            val url : String = "https://github.com/FunLocks/team2001"
+            val url : String = "http://153.120.166.49:8081"
             val uri : Uri = Uri.parse(url)
             val intent :Intent = Intent(Intent.ACTION_VIEW,uri)
             startActivity(intent)
