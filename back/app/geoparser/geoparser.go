@@ -1,7 +1,9 @@
 package geoparser
 
 import (
+	"fmt"
 	"strconv"
+	"strings"
 
 	"../types"
 )
@@ -23,27 +25,34 @@ type Address struct {
 func (c *Coord) GetCityName() string {
 
 	lenAddressComponents := len(c.Geodata.Results[0].AddressComponents)
-	var city = c.Geodata.Results[0].AddressComponents[lenAddressComponents-3].LongName
-	return city
+	city := c.Geodata.Results[0].AddressComponents[lenAddressComponents-3].LongName
+	// 空白を置換しないとURLが壊れる
+	return strings.Replace(city, " ", "-", -1)
 }
 
 func (c *Coord) GetTownName() string {
-	
+
 	lenAddressComponents := len(c.Geodata.Results[0].AddressComponents)
-	var town = c.Geodata.Results[0].AddressComponents[lenAddressComponents-4].LongName
-	return town
+	town := c.Geodata.Results[0].AddressComponents[lenAddressComponents-4].LongName
+	// 空白を置換しないとURLが壊れる
+	return strings.Replace(town, " ", "-", -1)
+}
+
+// Println データを表示
+func (c *Coord) Println() {
+	fmt.Println(c.Geodata)
 }
 
 // GetLatitude  write await
 func (a *Address) GetLatitude() string {
-	
+
 	var latitude = a.Geodata.Results[0].Geometry.Location.Lat
-	return strconv.FormatFloat(latitude, 'f',-1, 64)
+	return strconv.FormatFloat(latitude, 'f', -1, 64)
 }
 
 // GetLongitude write await
 func (a *Address) GetLongitude() string {
-	
+
 	var longitude = a.Geodata.Results[0].Geometry.Location.Lng
-	return strconv.FormatFloat(longitude, 'f',-1, 64)
+	return strconv.FormatFloat(longitude, 'f', -1, 64)
 }

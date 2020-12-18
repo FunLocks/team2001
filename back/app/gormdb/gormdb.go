@@ -39,12 +39,17 @@ func InsertOneRecord(loc Location) {
 	db := GormConnect()
 
 	db.Migrator().AutoMigrate(&Location{
-		ID:        0,
-		CreatedAt: time.Time{},
-		Latitude:  "",
-		Longitude: "",
+		ID:           0,
+		CreatedAt:    time.Time{},
+		RawLatitude:  "",
+		RawLongitude: "",
+		Latitude:     "",
+		Longitude:    "",
+		Town:         "",
+		Temprature:   "",
+		AirPressure:  "",
 	})
-	fmt.Print("test: ")
+	// fmt.Print("test: ")
 	fmt.Printf("%v+", &loc)
 	db.Create(&loc)
 
