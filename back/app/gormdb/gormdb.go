@@ -49,11 +49,7 @@ func InsertOneRecord(loc Location) {
 		Temprature:   "",
 		AirPressure:  "",
 	})
-	// fmt.Print("test: ")
-	// fmt.Printf("%v+", &loc)
 	db2, _ := db.DB()
-	db3, _ := db2.Begin()
-	db3.Commit()
 
 	result := db.Create(&loc)
 	defer db2.Close()
