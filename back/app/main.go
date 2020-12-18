@@ -1,10 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/gin-contrib/cors"
+	"fmt"
+
 	"./gormdb"
 	"./query"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 // ほしそうなクエリ
@@ -18,10 +21,11 @@ func main() {
 
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-			AllowOrigins: []string{"*"}}))
-	r.GET("/get", query.GetOneRecord())
-	r.GET("/getall", query.GetAllRecord())
-	r.POST("/post", query.PostFromApp())
+		AllowOrigins: []string{"*"}}))
+	r.GET("/get", query.GetOneRecord)
+	r.GET("/getall", query.GetAllRecord)
+	r.POST("/post", query.PostFromApp)
 	r.Run()
+	fmt.Println("after run")
 
 }
