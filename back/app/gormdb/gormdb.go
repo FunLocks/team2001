@@ -15,7 +15,6 @@ func GormConnect() *gorm.DB {
 	PASS := "yowayowa01"
 	PROTOCOL := "tcp(mysql:3306)"
 	DBNAME := "ahchoo"
-	// DBNAME := "yowayowa" // 本番
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"
 	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
 
@@ -51,9 +50,8 @@ func InsertOneRecord(loc Location) {
 	})
 	db2, _ := db.DB()
 
-	result := db.Create(&loc)
+	db.Create(&loc)
 	defer db2.Close()
-	fmt.Println(result.RowsAffected)
 }
 
 func insertMenyRecord(locs []Location) {

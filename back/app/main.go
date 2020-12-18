@@ -1,10 +1,9 @@
 package main
 
 import (
-  "github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-  
+
 	"./gormdb"
 	"./query"
 )
@@ -30,6 +29,5 @@ func main() {
 	r.GET("/ahchoo/thiry-days", query.GetThirtyDays)
 	r.POST("/ahchoo/post", query.PostFromApp)
 	r.Run(":8080")
-	fmt.Println("after run")
 
 }
