@@ -27,7 +27,7 @@ if __name__ == '__main__':
 	gps.update()
 
 	url = "http://153.120.166.49:8080/ahchoo/post"
-	headers = {"Content-Type" : "application/json"}
+	header = {"content-Type" : "application/json"}
 
 	flag = True;
 	while True:
@@ -49,12 +49,12 @@ if __name__ == '__main__':
 			print("gps data format done")
 			data = {"latitude" : lat, "longitude": lng}
 			print(" ---- data ----")
-			json_data = json.dumps(data).encode("utf-8")
+			json_data = json.dumps(data)
 			print(json_data)
 			print("---------------")
 
 			try:
-				r = requests.post(url, data=json_data, headers=headers)
+				r = requests.post(url, data=json_data, headers=header)
 			except:
 				print("err")
 
