@@ -6,8 +6,8 @@ const hakodate = {
     lat: 41.76205157771236,
     lng: 140.70437368224884 
 };
-
-const myCircle = null;
+ 
+var myCircle = null;
 class Map extends React.Component {
     constructor(props) {
         super(props)
@@ -25,7 +25,7 @@ class Map extends React.Component {
   
     
     componentDidMount = () => {
-        this.timerID = setInterval(this.addRadius, 5000);
+        this.timerID = setInterval(this.addRadius, 100);
 
         console.log("Mount.");
     };
@@ -34,13 +34,16 @@ class Map extends React.Component {
         if (prevState.radius !== this.state.radius) {
             //再描画
             console.log("changed.");
-            this.apiLoaded(prevState.mapRef,prevState.mapsRef)
+            myCircle.setRadius(this.state.radius)
+            if(this.state.deleteFlag){
+              myCircle.setVisible(false)
+            }
         }
     };
     
     addRadius = () => {
         console.log(this.state.radius);
-        var r = this.state.radius * 2;
+        var r = this.state.radius * 1.5;
         if(r > 500000){
             this.setState({
             deleteFlag:true,
@@ -54,17 +57,16 @@ class Map extends React.Component {
     apiLoaded = (map,maps) => {
         this.setState({mapRef:map})
         this.setState({mapsRef:maps})
-            if(this.state.deleteFlag)return;
-            new maps.Circle({
-                strokeColor:'red',
-                strokeOpacity:0.8,
-                strokeWeight:7,
-                fillColor:'#FF0000',
-                fillOpacity:0,
-                map,
-                center: hakodate,
-                radius: this.state.radius,
-            })
+        myCircle = new maps.Circle({
+          strokeColor:'red',
+          strokeOpacity:0.8,
+          strokeWeight:7,
+          fillColor:'#FF0000',
+          fillOpacity:0,
+          map,
+          center: hakodate,
+          radius: this.state.radius,
+        })
     }
 
     render() {
