@@ -1,5 +1,8 @@
 <resources>
     <dimen name="h1_size">32sp</dimen>
+    <dimen name="h2_size">21sp</dimen>
+    <dimen name="h3_size">20sp</dimen>
+    <dimen name="h4_size">16sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="indicator_height">40dp</dimen>
 </resources>
