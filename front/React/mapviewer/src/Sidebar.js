@@ -11,7 +11,8 @@ class AhchooCounter extends React.Component{
   }
   
   componentWillMount() {
-    return fetch('http://192.168.20.155:8080/get')
+    //return fetch('http://192.168.20.155:8080/get')
+    return fetch('http://153.120.166.49:8080/get')
       .then((response) => response.json())
       .then((responseJson) => (
           this.setState({
