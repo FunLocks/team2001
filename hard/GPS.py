@@ -13,16 +13,15 @@ class GPS:
 
 	def update(self):
 		string = self.s.readline().decode('utf-8')
-		if string[0] != '$':
-			continue
+		#if string[0] != '$':
 		for x in string:
 			self.gps.update(x)
 		
 	def latitude(self):
-		return self.gps.latitude()
+		return self.gps.latitude
 
 	def longitude(self):
-		return self.gps.latitude()
+		return self.gps.longitude
 
 	def latitude_to_string(self):
 		return self.gps.latitude_string()
