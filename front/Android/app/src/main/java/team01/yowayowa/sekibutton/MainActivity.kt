@@ -20,6 +20,14 @@ import androidx.core.app.ActivityCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.IOException
+import java.util.*
 
 class MainActivity : AppCompatActivity(),LocationListener {
 
@@ -39,6 +47,14 @@ class MainActivity : AppCompatActivity(),LocationListener {
         TabLayoutMediator(indicator, viewPager) { _, _ -> }.attach()
 
         checkLocationPermission()
+        //初回のみ
+        if (PreferencesUtil().isFirstJudgment(this)){
+            PreferencesUtil().setFirstFlag(this)
+            val intent = Intent(this, WalkThroughActivity::class.java)
+            //帰ってこれなくする
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -126,7 +142,24 @@ class MainActivity : AppCompatActivity(),LocationListener {
 
 
     internal fun sendToServer(){
-        //TODO("ここにサーバーへのjson送信処理を書く")
+        GlobalScope.launch {
+            val url: String = "http://153.120.166.49:8080/ahchoo/post"
+            val client: OkHttpClient = OkHttpClient.Builder().build()
+
+            // create json
+            val json = JSONObject()
+            json.put("latitude", myLocate?.latitude.toString())
+            json.put("longitude", myLocate?.longitude.toString())
+
+            // post
+            val postBody =
+                json.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            val request: Request = Request.Builder().url(url).post(postBody).build()
+            val response = client.newCall(request).execute()
+
+            val result: String? = response.body?.string()
+            response.close()
+        }
     }
 
     override fun onLocationChanged(location: Location?) {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF9F4"
     tools:layout_marginTop="?attr/actionBarSize"
     tools:layout_marginBottom="@dimen/indicator_height"
     tools:context=".SecondFragment">
@@ -23,7 +24,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="みんなの咳マップ"
+            android:text="AHCHOO Viewer"
             android:textColor="#000"
             android:textSize="@dimen/h1_size"
             android:textStyle="bold"
@@ -33,10 +34,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/webButton"
-            android:clickable="true"
-            android:layout_width="300dp"
-            android:layout_height="400dp"
+            android:layout_width="318dp"
+            android:layout_height="354dp"
             android:layout_marginTop="28dp"
+            android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,18 +45,21 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:src="@drawable/ic_launcher_background"
+                android:layout_width="305dp"
+                android:layout_height="176dp"
+                android:src="@drawable/mapimage"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.538"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:src="@drawable/mapImage" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
-                android:layout_width="300dp"
-                android:layout_height="150dp"
+                android:layout_width="307dp"
+                android:layout_height="182dp"
                 android:background="@color/webButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,11 +70,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="32dp"
-                    tools:text="あああああああああああああああああああああああああああああああああああああああああああ"
+                    android:textSize="@dimen/h3_size"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:gravity="center"
+                    android:text="みんながどれだけ\nくしゃみをしているか\n全国規模で視聴が可能" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

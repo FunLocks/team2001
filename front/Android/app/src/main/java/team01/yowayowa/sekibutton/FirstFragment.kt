@@ -126,4 +126,5 @@ class FirstFragment : Fragment() {
     private fun playSound(){
         soundPool.play(soiyaMix,1.0f,1.0f,1,0,1.0f)
     }
+
 }
