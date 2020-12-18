@@ -6,14 +6,19 @@ const hakodate = {
     lat: 41.76205157771236,
     lng: 140.70437368224884 
 };
+const hakodate2 = {
+  lat: 42.76205157771236,
+  lng: 134.70437368224884 
+};
  
-var myCircle = null;
+var myCircle = [];
 class Map extends React.Component {
     constructor(props) {
         super(props)
         this.state ={
-            deleteFlag:false,
-            radius:10000,
+            deleteFlag:[],
+            radius:[],
+            loaded: false,
         }
     }
     static defaultProps = {
@@ -26,46 +31,88 @@ class Map extends React.Component {
     
     componentDidMount = () => {
         this.timerID = setInterval(this.addRadius, 100);
-
         console.log("Mount.");
     };
+    componentWillUnmount(){
+      clearInterval(this.timerID);
+    }
 
     componentDidUpdate = (prevProps, prevState) => {
-        if (prevState.radius !== this.state.radius) {
             //再描画
-            console.log("changed.");
-            myCircle.setRadius(this.state.radius)
-            if(this.state.deleteFlag){
-              myCircle.setVisible(false)
+            if(myCircle.length > 0 ){
+              for(var i = 0; i < myCircle.length;i++){
+                myCircle[0].setRadius(this.state.radius[0])
+                if(this.state.deleteFlag[0]){
+                  console.log("deleted");
+                  myCircle[0].setVisible(false)
+                  myCircle.shift()
+                  //flag
+                  var newstate = this.state.deleteFlag;
+                  newstate.shift();
+                  this.setState({
+                    deleteFlag:newstate,
+                  });
+                  //
+                  //radius
+                  var newState = this.state.radius;
+                  newState.shift();
+                  this.setState({
+                    radius:newState,
+                  });
+                  //
+                }
+              }
             }
-        }
     };
     
     addRadius = () => {
-        console.log(this.state.radius);
-        var r = this.state.radius * 1.5;
-        if(r > 500000){
+      if(this.state.loaded){
+        for(var i = 0;i<myCircle.length;i++){
+          var r = this.state.radius[i] * 1.5;
+          if(r > 500000){
+            var newstate = this.state.deleteFlag;
+            newstate[i] = true;
             this.setState({
-            deleteFlag:true,
-        });
+              deleteFlag:newstate,
+            });
+          }
+          //Add radius
+          var newState = this.state.radius;
+          this.state.radius[i] = r;
+          this.setState({
+            radius:newState,
+          });
         }
-        this.setState({
-            radius:r,
-        });
+      }
     }
 
-    apiLoaded = (map,maps) => {
+    apiLoaded = (map,maps,object) => {
         this.setState({mapRef:map})
         this.setState({mapsRef:maps})
-        myCircle = new maps.Circle({
-          strokeColor:'red',
-          strokeOpacity:0.8,
-          strokeWeight:7,
-          fillColor:'#FF0000',
-          fillOpacity:0,
-          map,
-          center: hakodate,
-          radius: this.state.radius,
+        var newstate = this.state.deleteFlag;
+        newstate.push(false)
+        this.setState({
+          deleteFlag:newstate,
+        })
+        var newState = this.state.radius;
+        newState.push(1000)
+        this.setState({
+          radius:newState,
+        })
+        myCircle.push(
+          new maps.Circle({
+            strokeColor:'red',
+            strokeOpacity:0.8,
+            strokeWeight:7,
+            fillColor:'#FF0000',
+            fillOpacity:0,
+            map,
+            center: object,
+            radius: this.state.radius[this.state.radius.length -1],
+          })
+        )
+        this.setState({
+          loaded:true,
         })
     }
 
@@ -76,7 +123,7 @@ class Map extends React.Component {
             bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY}}
             defaultCenter={this.props.center}
             defaultZoom={6}
-            onGoogleApiLoaded={({map, maps}) =>this.apiLoaded(map,maps)}
+            onGoogleApiLoaded={({map, maps}) =>this.apiLoaded(map,maps,hakodate2)}
             />
         </div>
       );
