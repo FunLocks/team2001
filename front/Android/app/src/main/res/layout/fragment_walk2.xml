@@ -46,11 +46,12 @@
             android:id="@+id/imageView"
             android:layout_width="203dp"
             android:layout_height="205dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="48dp"
+            android:src="@drawable/smartphone_icon"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.518"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            android:src="@drawable/smartphone_icon"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/textView3"
