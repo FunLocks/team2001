@@ -9,7 +9,7 @@
                 android:topLeftRadius="10dp"
                 />
             <solid
-                android:color="@color/button_material_light"
+                android:color="#30E584"
                 />
         </shape>
     </item>
