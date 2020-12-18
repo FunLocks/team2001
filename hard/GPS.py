@@ -1,6 +1,7 @@
 import serial
 import time
 from micropyGPS import micropyGPS
+import sys
 
 class GPS:
 	gps = micropyGPS.MicropyGPS(9, 'dd')
@@ -12,7 +13,10 @@ class GPS:
 		pass
 
 	def update(self):
-		string = self.s.readline().decode('utf-8')
+		try:
+			string = self.s.readline().decode('utf-8')
+		except:
+			sys.exit(1)
 		#if string[0] != '$':
 		for x in string:
 			self.gps.update(x)
