@@ -12,18 +12,10 @@ const hakodate2 = {
   lng: 136.70437368224884 
 };
  
-var myCircle = null;
-var myCircle2 = null;
+var myCircles = [];
+var myRadiuss = [];
+var myDeleteFrags = [];
 class Map extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state ={
-            deleteFlag:false,
-            radius:10000,
-            deleteFlag2:false,
-            radius2:10000,
-        }
-    }
     static defaultProps = {
       center: {
         lat: 38.6777701,
@@ -33,73 +25,52 @@ class Map extends React.Component {
   
     
     componentDidMount = () => {
-        this.timerID = setInterval(this.addRadius, 100);
-
+        this.timerID = setInterval(this.Update, 100);
         console.log("Mount.");
     };
 
-    componentDidUpdate = (prevProps, prevState) => {
-        if (prevState.radius !== this.state.radius) {
-            //再描画
-            console.log("changed.");
-            myCircle.setRadius(this.state.radius)
-            myCircle2.setRadius(this.state.radius)
-            if(this.state.deleteFlag){
-              myCircle.setVisible(false)
-            }
-            
-            if(this.state.deleteFlag2){
-              myCircle2.setVisible(false)
-            }
+    Update = () => {
+        for(let i = 0; i < myRadiuss.length;i++){
+          var r = myRadiuss[i] * 1.5;
+          if(r > 500000){
+            myDeleteFrags[i] = true;
+          }
+          if(!myDeleteFrags[i]) myRadiuss[i] = r;
         }
-    };
-    
-    addRadius = () => {
-        console.log(this.state.radius);
-        var r = this.state.radius * 1.5;
-        var r2 = this.state.radius2 * 1.5;
-        if(r > 500000){
-            this.setState({
-              deleteFlag:true,
-            });
+        console.log(myCircles[0]);
+        console.log(myRadiuss[0]);
+        console.log(myDeleteFrags[0]);
+
+        for(let i = 0; i < myRadiuss.length;i++){
+          myCircles[i].setRadius(myRadiuss[i]);
+          console.log("set");
+          if(myDeleteFrags[i]){
+            myCircles[i].setVisible(true);
+          }
         }
-        if(r2 > 500000){
-          this.setState({
-            deleteFlag2:true,
-          });
-        }
-        
-        this.setState({
-            radius:r,
-        });
-        this.setState({
-          radius2:r2,
-      });
     }
 
-    apiLoaded = (map,maps) => {
+    apiLoaded = (map,maps,lat,lng) => {
         this.setState({mapRef:map})
         this.setState({mapsRef:maps})
-        myCircle = new maps.Circle({
-          strokeColor:'red',
-          strokeOpacity:0.8,
-          strokeWeight:7,
-          fillColor:'#FF0000',
-          fillOpacity:0,
-          map,
-          center: hakodate,
-          radius: this.state.radius,
-        })
-        myCircle2 = new maps.Circle({
-          strokeColor:'red',
-          strokeOpacity:0.8,
-          strokeWeight:7,
-          fillColor:'#FF0000',
-          fillOpacity:0,
-          map,
-          center: hakodate2,
-          radius: this.state.radius2,
-        })
+        const lotate = {
+          lat : lat,
+          lmg : lng,
+        }
+        myDeleteFrags.push(false);
+        myRadiuss.push(1000);
+        myCircles.push(
+          new maps.Circle({
+            strokeColor:'red',
+            strokeOpacity:0.8,
+            strokeWeight:7,
+            fillColor:'#FF0000',
+            fillOpacity:0,
+            map,
+            center: lotate,
+            radius: myRadiuss[myRadiuss.length-1],
+          })
+        );
     }
 
     render() {
@@ -109,7 +80,7 @@ class Map extends React.Component {
             bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API_KEY}}
             defaultCenter={this.props.center}
             defaultZoom={6}
-            onGoogleApiLoaded={({map, maps}) =>this.apiLoaded(map,maps)}
+            onGoogleApiLoaded={({map, maps}) =>this.apiLoaded(map,maps,hakodate.lat,hakodate.lng)}
             />
         </div>
       );
