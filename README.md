@@ -54,23 +54,47 @@ Webアプリからみんなのくしゃみを確認。くしゃみは決して�
 GitHub Projectを活用し進捗管理を行い、細かな議論はissueテンプレートを活用することでスムーズに議論ができる環境を整えた。    
 疑問点がある場合Discordにてすぐに議論を行い、毎日行った進捗確認のMTGでは空気感を共有するためカメラをオンにして行った。  
 
+フロントエンドのデザインでは、adobeが提供するオンラインツールを用いてイメージの共有を図った。
+
 バックエンドでは、dockerを用いて本番サーバーの環境を自動で構築できるようにしたので、開発者がローカルでサーバーを立てて開発をすすめられるようにした。
  
 
 ## 開発技術
-
+### Android
+#### 利用したプログラミング言語    
+ - Kotlin
+   
+#### 利用したフレームワーク・ライブラリ
+ - androidx
+ - kotlinx.coroutines
+ - Preference
+ - okhttp3
+ - Camera2 API
+***
+### Web
+#### 利用したプログラミング言語    
+ - JSX
+#### 利用したフレームワーク・ライブラリ
+ - React
+ - google-map-react
+***
+### Design
+#### 利用したフレームワーク・ライブラリ
+ - Illustrator
+ - Adobe XD
+ - Photoshop
+***
 ### バックエンド，サーバーサイド  
 #### 利用したプログラミング言語    
  - Go  
 
-### 利用したフレームワーク・ライブラリ
+#### 利用したフレームワーク・ライブラリ
  - gin
  - gorm
  - docker
  - git
  
 ### ハードウェア  
-
 #### 利用したプログラミング言語
  - python  
  - go  
@@ -80,16 +104,13 @@ GitHub Projectを活用し進捗管理を行い、細かな議論はissueテン�
  - MicropyGPS  
  - docker  
  - docker-compose  
- 
+***
 #### その他開発に使用したツール
-
+ - Windows 10
+ - GitHub
+ - Git
+ - Node.js
+ - Adobe Premia Pro
  - カッター  
  - SSR  
  - raspberry pi zero WH  
- 
-
-### 利用したフレームワーク・ライブラリ
-...
-
-### その他開発に使用したツール
-...
