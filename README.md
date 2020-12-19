@@ -29,6 +29,8 @@ Webアプリからみんなのくしゃみを確認。くしゃみは決して�
 
 [<img width="1387" alt="スクリーンショット 2020-12-19 8 45 48" src="https://user-images.githubusercontent.com/37332703/102673248-af9c6080-41d6-11eb-86d5-c5152205c934.png">](https://drive.google.com/file/d/1VvD_6N5HkhK_lSCLxW5gfK143ZFPoDv9/view?usp=sharing)  
 
+### For Developers
+[開発者向けページはこちら](ForDev.md)
 
 ## 開発体制
 ### 役割分担
@@ -94,6 +96,7 @@ GitHub Projectを活用し進捗管理を行い、細かな議論はissueテン�
  - docker
  - git
  
+***
 ### ハードウェア  
 #### 利用したプログラミング言語
  - python  
