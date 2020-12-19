@@ -45,5 +45,6 @@ services:
       - 8081:3000
     volumes:
       - ./front/React/mapviewer:/app
+        #entrypoint: "/bin/sh -c 'npm install'" 
     command : ["sh", "-c", "cd /app && yarn start"]
       
