@@ -36,5 +36,14 @@ services:
     ports:
       - 3001:3306
 
-
-
+  react:
+    container_name: react
+    hostname: react
+    build: ./front/React
+    restart: always
+    ports:
+      - 8081:3000
+    volumes:
+      - ./front/React/mapviewer:/app
+    command : ["sh", "-c", "cd /app && yarn start"]
+      
